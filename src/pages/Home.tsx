@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useAppStore } from '../stores/appStore'
+import { useChatStore } from '../stores/chat'
 import { 
   Zap, 
   ShieldCheck, 
@@ -21,6 +22,14 @@ const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function Home() {
   const setPageTitle = useAppStore((s) => s.setPageTitle)
   const { webGpuSupported, gpuName, setWebGpuStatus } = useAppStore()
+  const { models, setSelectedModel } = useChatStore()
+  const navigate = useNavigate()
+
+  const handleLaunchModel = (model: any) => {
+    setSelectedModel(model)
+    useChatStore.setState({ modelReady: false })
+    navigate({ to: '/chat' })
+  }
 
   const repoUrl = 'https://github.com/phaneesh29/browser_ai'
 
@@ -139,6 +148,45 @@ export default function Home() {
             >
               <GithubIcon className="w-4 h-4 text-[#94a3b8] group-hover:text-[#f1f5f9]" /> View GitHub Project
             </a>
+          </div>
+        </section>
+
+        {/* Model Selection Section */}
+        <section className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#f1f5f9]">Select a Local Model</h2>
+            <p className="text-[#64748b] mt-2">Choose an architecture to initialize and launch directly inside your browser.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {models.map((model) => (
+              <div 
+                key={model.id}
+                onClick={() => handleLaunchModel(model)}
+                className="group relative bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] hover:border-[#06b6d4]/40 rounded-2xl p-6 shadow-md hover:shadow-[0_0_24px_rgba(6,182,212,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-[#f1f5f9] group-hover:text-[#06b6d4] transition-colors">{model.name}</h3>
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-[#06b6d4]/10 text-[#06b6d4] border border-[#06b6d4]/20">
+                      {model.size}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#94a3b8] leading-relaxed">
+                    {model.blurb}
+                  </p>
+                  <div className="flex items-center gap-4 text-[11px] font-mono text-[#64748b]">
+                    <span>Params: <strong className="text-slate-300">{model.params}</strong></span>
+                    <span>Format: <strong className="text-slate-300">ONNX {model.dtype}</strong></span>
+                  </div>
+                </div>
+                <div className="mt-5 flex items-center justify-end">
+                  <span className="text-xs font-semibold text-[#06b6d4] flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                    Launch Model <Zap className="w-3.5 h-3.5 fill-[#06b6d4]/25" />
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
