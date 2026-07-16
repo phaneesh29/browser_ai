@@ -61,13 +61,13 @@ Processing prompt tokens using GPU compute queue... (Prefill speed: 310.4 tok/s)
     // Step 1: Compile/Init (WGSL Shaders)
     setPipelineStage('compile')
     setProgress(15)
-    setVramUsage(1200) // Base model weight footprint in VRAM (simulated q4 quantization)
+    setVramUsage(1200) // Base weight footprint
 
     setTimeout(() => {
       // Step 2: Prompt Ingestion / Prefill
       setPipelineStage('ingest')
       setProgress(50)
-      setVramUsage(1350) // weights + input buffer
+      setVramUsage(1350)
 
       setTimeout(() => {
         // Step 3: Autoregressive decoding
@@ -77,12 +77,10 @@ Processing prompt tokens using GPU compute queue... (Prefill speed: 310.4 tok/s)
         let currentCharIndex = 0
         const interval = setInterval(() => {
           if (currentCharIndex < fullResponse.length) {
-            // Read character by character
             const nextChars = fullResponse.slice(0, currentCharIndex + 4)
             setResponseText(nextChars)
             currentCharIndex += 4
             
-            // Randomly wiggle metrics to make it look alive
             setSpeed(Number((38 + Math.random() * 8).toFixed(1)))
             setTokensGenerated(Math.min(26, Math.floor(currentCharIndex / 16)))
             setVramUsage(Math.floor(1420 + Math.random() * 15))
@@ -100,129 +98,160 @@ Processing prompt tokens using GPU compute queue... (Prefill speed: 310.4 tok/s)
   }
 
   return (
-    <div>
-      <div className="page-intro">
-        <h1>On-Device Neural Acceleration</h1>
-        <p>
+    <div className="space-y-8 animate-fade-in">
+      <div className="mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-100 to-indigo-200 bg-clip-text text-transparent">
+          On-Device Neural Acceleration
+        </h1>
+        <p className="text-gray-400 text-base sm:text-lg mt-2 max-w-2xl">
           Running LLMs directly inside your browser sandbox. Fully private, cost-free inference powered by WebGPU.
         </p>
       </div>
 
-      <div className="dashboard-grid">
-        {/* Left Side: Playground & Console */}
-        <div className="glass-card">
-          <div className="model-header-row">
-            <div className="model-name-title">
-              🧠 Llama-3-8B-Instruct
-              <span className="model-badge">INT4 quantized</span>
-            </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <span className="model-badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#a7f3d0', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
-                4.54 GB
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Side: Playground & Console (Takes 2/3 cols on lg screens) */}
+        <div className="lg:col-span-2 bg-[#1a1d2e] border border-[#252a45] rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.05)] flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <div className="text-lg font-semibold text-gray-100 flex items-center gap-2">
+                🧠 Llama-3-8B-Instruct
+                <span className="text-[11px] bg-indigo-500/15 text-indigo-300 border border-indigo-500/20 px-2 py-0.5 rounded font-mono">
+                  INT4 quantized
+                </span>
+              </div>
+              <span className="text-[11px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/20 px-2 py-0.5 rounded font-mono">
+                4.54 GB cached
               </span>
             </div>
-          </div>
 
-          <div className="playground-input-group">
-            <textarea
-              className="playground-textarea"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              disabled={isRunning}
-              placeholder="Enter a prompt to run locally..."
-            />
-            <div className="playground-actions">
-              <button
-                className="btn btn-secondary"
+            <div className="space-y-4">
+              <textarea
+                className="w-full min-h-[100px] bg-black/30 border border-[#252a45] rounded-xl p-4 text-gray-100 placeholder-gray-500 text-sm focus:outline-none focus:border-indigo-500 resize-y transition-colors"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
                 disabled={isRunning}
-                onClick={() => {
-                  setResponseText('')
-                  setSpeed(0)
-                  setTokensGenerated(0)
-                  setVramUsage(0)
-                }}
-              >
-                Clear Console
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={runWebGPUBenchmark}
-                disabled={isRunning}
-              >
-                {isRunning ? 'Inferencing...' : 'Run WebGPU Inference'}
-              </button>
+                placeholder="Enter a prompt to run locally..."
+              />
+              <div className="flex justify-end gap-3">
+                <button
+                  className="px-4 py-2 bg-white/5 text-gray-200 border border-[#252a45] rounded-xl text-sm font-semibold hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  disabled={isRunning}
+                  onClick={() => {
+                    setResponseText('')
+                    setSpeed(0)
+                    setTokensGenerated(0)
+                    setVramUsage(0)
+                  }}
+                >
+                  Clear Console
+                </button>
+                <button
+                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-semibold shadow-lg shadow-indigo-600/20 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                  onClick={runWebGPUBenchmark}
+                  disabled={isRunning}
+                >
+                  {isRunning ? 'Inferencing...' : 'Run WebGPU Inference'}
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="output-console" ref={outputRef}>
+          <div 
+            ref={outputRef}
+            className="mt-6 bg-black/40 border border-[#252a45] rounded-xl p-5 min-h-[160px] max-h-[300px] overflow-y-auto font-mono text-sm leading-relaxed text-indigo-100/90 whitespace-pre-wrap relative"
+          >
             {responseText ? (
               <>
                 {responseText}
-                {isRunning && <span className="cursor-blink"></span>}
+                {isRunning && <span className="inline-block w-1.5 h-4 bg-indigo-400 ml-1 animate-pulse"></span>}
               </>
             ) : (
-              <div className="output-placeholder">
+              <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-sm p-4">
                 Waiting for inference trigger... Click "Run WebGPU Inference" to start.
               </div>
             )}
           </div>
         </div>
 
-        {/* Right Side: Performance Monitor & WebGPU Config */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {/* Right Side: Performance Monitor & WebGPU Config (Takes 1/3 col) */}
+        <div className="space-y-6">
           {/* Active Metrics */}
-          <div className="glass-card">
-            <h3 style={{ margin: '0 0 16px', fontSize: '15px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+          <div className="bg-[#1a1d2e] border border-[#252a45] rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.05)]">
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
               Hardware Monitor
             </h3>
-            <div className="metrics-grid">
-              <div className="metric-card">
-                <span className="metric-label">Inference Speed</span>
-                <span className="metric-value">
+            
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="bg-white/2 border border-white/5 p-4 rounded-xl flex flex-col">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold mb-1">Speed</span>
+                <span className="text-lg font-bold font-mono text-gray-100">
                   {speed || '—'}
-                  {speed > 0 && <span className="metric-unit"> T/s</span>}
+                  {speed > 0 && <span className="text-xs font-normal text-gray-400 ml-0.5"> T/s</span>}
                 </span>
               </div>
-              <div className="metric-card">
-                <span className="metric-label">VRAM Usage</span>
-                <span className="metric-value">
+              <div className="bg-white/2 border border-white/5 p-4 rounded-xl flex flex-col">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold mb-1">VRAM Footprint</span>
+                <span className="text-lg font-bold font-mono text-gray-100">
                   {vramUsage ? (vramUsage / 1024).toFixed(2) : '—'}
-                  {vramUsage > 0 && <span className="metric-unit"> GB</span>}
+                  {vramUsage > 0 && <span className="text-xs font-normal text-gray-400 ml-0.5"> GB</span>}
                 </span>
               </div>
             </div>
 
-            <div className="pipeline-container">
-              <div className="pipeline-title">
+            <div className="bg-black/20 border border-[#252a45] rounded-xl p-5">
+              <div className="flex justify-between items-center text-xs font-semibold text-gray-400 uppercase mb-4">
                 <span>GPU Compute Pipeline</span>
-                <span style={{ color: isRunning ? 'var(--accent)' : 'var(--text-muted)' }}>
-                  {pipelineStage.toUpperCase()}
+                <span className={isRunning ? 'text-indigo-400' : 'text-gray-500'}>
+                  {pipelineStage}
                 </span>
               </div>
-              <div className="pipeline-flow">
-                <div className={`pipeline-step ${pipelineStage === 'compile' ? 'active' : ''}`}>
-                  <div className="step-icon">🛠️</div>
-                  <div className="step-name">WGSL</div>
-                  <div className="step-status">Compile</div>
+
+              <div className="flex items-center justify-between gap-1">
+                {/* Step 1 */}
+                <div className={`flex-1 text-center p-2 rounded-lg border transition-all ${
+                  pipelineStage === 'compile' 
+                    ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-200' 
+                    : 'bg-white/2 border-transparent text-gray-500'
+                }`}>
+                  <div className="text-base mb-0.5">🛠️</div>
+                  <div className="text-[10px] font-bold">WGSL</div>
+                  <div className="text-[8px] opacity-75 font-mono">Compile</div>
                 </div>
-                <div className="pipeline-arrow">➔</div>
-                <div className={`pipeline-step ${pipelineStage === 'ingest' ? 'active' : ''}`}>
-                  <div className="step-icon">📥</div>
-                  <div className="step-name">Prefill</div>
-                  <div className="step-status">KV Cache</div>
+
+                <span className="text-gray-600 text-xs font-bold">➔</span>
+
+                {/* Step 2 */}
+                <div className={`flex-1 text-center p-2 rounded-lg border transition-all ${
+                  pipelineStage === 'ingest' 
+                    ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-200' 
+                    : 'bg-white/2 border-transparent text-gray-500'
+                }`}>
+                  <div className="text-base mb-0.5">📥</div>
+                  <div className="text-[10px] font-bold">Prefill</div>
+                  <div className="text-[8px] opacity-75 font-mono">KV Cache</div>
                 </div>
-                <div className="pipeline-arrow">➔</div>
-                <div className={`pipeline-step ${pipelineStage === 'decode' ? 'active' : ''}`}>
-                  <div className="step-icon">🔄</div>
-                  <div className="step-name">Decode</div>
-                  <div className="step-status">{tokensGenerated} Toks</div>
+
+                <span className="text-gray-600 text-xs font-bold">➔</span>
+
+                {/* Step 3 */}
+                <div className={`flex-1 text-center p-2 rounded-lg border transition-all ${
+                  pipelineStage === 'decode' 
+                    ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-200' 
+                    : 'bg-white/2 border-transparent text-gray-500'
+                }`}>
+                  <div className="text-base mb-0.5">🔄</div>
+                  <div className="text-[10px] font-bold">Decode</div>
+                  <div className="text-[8px] opacity-75 font-mono">{tokensGenerated} Toks</div>
                 </div>
               </div>
 
               {isRunning && (
-                <div className="loader-container">
-                  <div className="progress-bar-wrapper">
-                    <div className="progress-bar animated" style={{ width: `${progress}%` }}></div>
+                <div className="mt-4">
+                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-indigo-500 via-indigo-400 to-indigo-500 rounded-full transition-all duration-300 bg-[length:200%_100%] animate-pulse" 
+                      style={{ width: `${progress}%` }}
+                    ></div>
                   </div>
                 </div>
               )}
@@ -230,30 +259,31 @@ Processing prompt tokens using GPU compute queue... (Prefill speed: 310.4 tok/s)
           </div>
 
           {/* WebGPU Device Adapter details */}
-          <div className="glass-card">
-            <h3 style={{ margin: '0 0 16px', fontSize: '15px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+          <div className="bg-[#1a1d2e] border border-[#252a45] rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.05)]">
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
               Device Profile
             </h3>
-            <div className="device-info-list">
-              <div className="device-info-item">
-                <span className="info-label">API Version</span>
-                <span className="info-value" style={{ color: webGpuSupported ? 'var(--success)' : 'var(--error)' }}>
+            
+            <div className="space-y-4 text-sm">
+              <div className="flex justify-between pb-3 border-b border-white/5">
+                <span className="text-gray-400">API Version</span>
+                <span className={`font-mono font-semibold ${webGpuSupported ? 'text-emerald-400' : 'text-red-400'}`}>
                   WebGPU v1.0
                 </span>
               </div>
-              <div className="device-info-item">
-                <span className="info-label">Hardware Adapter</span>
-                <span className="info-value" style={{ maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <div className="flex justify-between pb-3 border-b border-white/5">
+                <span className="text-gray-400">Hardware Adapter</span>
+                <span className="font-mono font-semibold text-gray-200 max-w-[150px] truncate" title={gpuName}>
                   {gpuName}
                 </span>
               </div>
-              <div className="device-info-item">
-                <span className="info-label">Driver Architecture</span>
-                <span className="info-value">WGSL Shaders</span>
+              <div className="flex justify-between pb-3 border-b border-white/5">
+                <span className="text-gray-400">Shader Engine</span>
+                <span className="font-mono font-semibold text-gray-200">WGSL Pipeline</span>
               </div>
-              <div className="device-info-item">
-                <span className="info-label">Host Browser</span>
-                <span className="info-value">Chrome Sandbox</span>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Host Environment</span>
+                <span className="font-mono font-semibold text-gray-200">Browser Sandbox</span>
               </div>
             </div>
           </div>
