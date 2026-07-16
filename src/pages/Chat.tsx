@@ -42,14 +42,6 @@ function StopIcon() {
   )
 }
 
-function PlusIcon() {
-  return (
-    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="8" y1="3" x2="8" y2="13" />
-      <line x1="3" y1="8" x2="13" y2="8" />
-    </svg>
-  )
-}
 
 function CopyIcon() {
   return (
@@ -409,13 +401,8 @@ export default function Chat() {
 
             {/* Composer Input Area */}
             <div className="flex-shrink-0 bg-[#08090a] px-4 pb-6 pt-2">
-              <div className="max-w-2xl mx-auto w-full bg-[#111317] border border-[rgba(255,255,255,0.06)] rounded-full px-4 py-2 flex items-center gap-3 shadow-md focus-within:border-[#06b6d4]/50 focus-within:ring-2 focus-within:ring-[#06b6d4]/10 transition-all">
+              <div className="max-w-2xl mx-auto w-full bg-[#111317] border border-[rgba(255,255,255,0.06)] rounded-full pl-6 pr-2 py-2 flex items-center gap-3 shadow-md focus-within:border-[#06b6d4]/50 focus-within:ring-2 focus-within:ring-[#06b6d4]/10 transition-all">
                 
-                {/* Plus button at left */}
-                <button className="p-2 text-[#64748b] hover:text-[#f1f5f9] hover:bg-[#0d0e12] rounded-full transition-colors cursor-pointer" title="Add attachment">
-                  <PlusIcon />
-                </button>
-
                 {/* Input Textarea */}
                 <textarea
                   ref={inputRef}
