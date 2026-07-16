@@ -89,8 +89,9 @@ class LlmRuntimeManager {
   public generate(
     messages: Message[],
     onChunk: (text: string, tps?: number) => void,
-    maxTokens = 512,
-    temperature = 0.7
+    maxTokens = 1024,
+    temperature = 0.7,
+    doSample = false
   ): Promise<any> {
     this.onChunkCallback = onChunk
 
@@ -102,6 +103,7 @@ class LlmRuntimeManager {
         messages,
         maxTokens,
         temperature,
+        doSample,
       })
     })
   }

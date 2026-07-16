@@ -79,7 +79,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
     }
 
     stopping_criteria.reset()
-    const { messages, maxTokens = 512, temperature = 0.7 } = action
+    const { messages, maxTokens = 1024, temperature = 0.7, doSample = false } = action
 
     let startTime: number | null = null
     let tokenCount = 0
@@ -113,7 +113,8 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
 
       const response = await generator(messages, {
         max_new_tokens: maxTokens,
-        temperature: temperature,
+        temperature: doSample ? temperature : undefined,
+        do_sample: doSample,
         streamer: streamer,
         stopping_criteria: stopping_criteria,
         past_key_values: past_key_values_cache,

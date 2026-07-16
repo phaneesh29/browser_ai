@@ -25,6 +25,7 @@ export interface WorkerGeneratePayload {
   messages: Message[]
   maxTokens?: number
   temperature?: number
+  doSample?: boolean
 }
 
 export interface WorkerAbortPayload {
