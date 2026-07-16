@@ -64,23 +64,7 @@ function CopyIcon() {
   )
 }
 
-function ThumbsUpIcon() {
-  return (
-    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9.5 4.5V2.25a1.25 1.25 0 0 0-2.5 0v2.25H4.25a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6.5a1.25 1.25 0 0 0 1.25-1.25V5.75A1.25 1.25 0 0 0 10.75 4.5H9.5z" />
-      <path d="M5.75 13.25V7.25" />
-    </svg>
-  )
-}
 
-function ThumbsDownIcon() {
-  return (
-    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6.5 11.5v2.25a1.25 1.25 0 0 0 2.5 0V11.5h2.75a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H5.25A1.25 1.25 0 0 0 4 4.75v6A1.25 1.25 0 0 0 5.25 12H6.5z" />
-      <path d="M10.25 2.75v6" />
-    </svg>
-  )
-}
 
 export default function Chat() {
   const setPageTitle = useAppStore((s) => s.setPageTitle)
@@ -349,8 +333,6 @@ export default function Chat() {
                             >
                               <CopyIcon />
                             </button>
-                            <button className="p-1 hover:text-[#ebe5d8] transition-colors cursor-pointer" title="Good response"><ThumbsUpIcon /></button>
-                            <button className="p-1 hover:text-[#ebe5d8] transition-colors cursor-pointer" title="Bad response"><ThumbsDownIcon /></button>
                           </div>
                         </div>
                       )}
