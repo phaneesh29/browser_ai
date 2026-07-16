@@ -88,6 +88,20 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const autoScrollRef = useRef(true)
 
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Click outside listener for custom dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   // Set page title
   useEffect(() => {
     setPageTitle('Chat')
@@ -206,30 +220,50 @@ export default function Chat() {
               </Link>
               
               {/* Dropdown for Model Selection on the Left */}
-              <div className="relative flex items-center">
-                <select
-                  value={selectedModel.id}
-                  onChange={(e) => {
-                    const m = models.find((x) => x.id === e.target.value)
-                    if (m) {
-                      setSelectedModel(m)
-                      useChatStore.setState({ modelReady: false })
-                    }
-                  }}
+              <div className="relative flex items-center" ref={dropdownRef}>
+                <button
+                  onClick={() => !generating && setDropdownOpen(!dropdownOpen)}
                   disabled={generating}
-                  className="text-md font-bold bg-transparent text-[#f1f5f9] border-none outline-none cursor-pointer focus:ring-0 appearance-none pr-6 font-sans"
+                  className="text-md font-bold bg-transparent text-[#f1f5f9] hover:bg-[#111317] px-2 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer focus:outline-none disabled:cursor-not-allowed select-none"
                 >
-                  {models.map((m) => (
-                    <option key={m.id} value={m.id} className="bg-[#111317] text-xs text-[#f1f5f9]">
-                      {m.name}
-                    </option>
-                  ))}
-                </select>
-                <span className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#64748b]">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </span>
+                  {selectedModel.name}
+                  <span className="text-[#64748b]">
+                    <svg className={`w-3.5 h-3.5 transform transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute left-0 top-full mt-2 w-56 bg-[#111317] border border-[rgba(255,255,255,0.06)] rounded-xl py-1.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-3 py-1.5 text-[9px] font-mono font-bold tracking-wider text-[#64748b] uppercase border-b border-[rgba(255,255,255,0.03)] mb-1">
+                      Available Models
+                    </div>
+                    {models.map((m) => (
+                      <button
+                        key={m.id}
+                        onClick={() => {
+                          setSelectedModel(m)
+                          useChatStore.setState({ modelReady: false })
+                          setDropdownOpen(false)
+                        }}
+                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                          selectedModel.id === m.id
+                            ? 'bg-[#06b6d4]/10 text-[#06b6d4] font-semibold'
+                            : 'text-[#f1f5f9] hover:bg-[rgba(255,255,255,0.03)]'
+                        }`}
+                      >
+                        <div className="flex flex-col">
+                          <span className="font-semibold text-[13px]">{m.name}</span>
+                          <span className="text-[10px] text-[#64748b] font-mono mt-0.5">{m.size} · Local GPU</span>
+                        </div>
+                        {selectedModel.id === m.id && (
+                          <span className="text-[#06b6d4] font-bold text-sm">✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
