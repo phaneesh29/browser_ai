@@ -165,17 +165,10 @@ export default function Chat() {
                 className={`group relative border rounded-xl p-5 cursor-pointer transition-all duration-200 flex flex-col space-y-2.5 select-none ${
                   selectedModel.id === m.id 
                     ? "border-[#ffb84d] bg-[#181816] text-[#ebe5d8]" 
-                    : m.comingSoon 
-                      ? "border-[rgba(235,229,216,0.05)] bg-[#181816]/30 text-[#807a6f] cursor-not-allowed opacity-50" 
-                      : "border-[rgba(235,229,216,0.1)] bg-[#181816]/60 text-[#b8b2a6] hover:border-[rgba(235,229,216,0.25)] hover:text-[#ebe5d8]"
+                    : "border-[rgba(235,229,216,0.1)] bg-[#181816]/60 text-[#b8b2a6] hover:border-[rgba(235,229,216,0.25)] hover:text-[#ebe5d8]"
                 }`}
-                onClick={() => !m.comingSoon && setSelectedModel(m)}
+                onClick={() => setSelectedModel(m)}
               >
-                {m.comingSoon && (
-                  <div className="absolute top-2.5 right-2.5 text-[8px] font-mono tracking-widest uppercase px-1.5 py-0.5 bg-[#ffb84d]/10 text-[#ffb84d] border border-[#ffb84d]/20 rounded">
-                    Coming soon
-                  </div>
-                )}
                 <div className="flex items-baseline justify-between">
                   <span className="text-xl font-bold tracking-tight">{m.params || '—'}</span>
                   <span className="text-[10px] font-mono text-[#807a6f]">{m.size || '—'}</span>

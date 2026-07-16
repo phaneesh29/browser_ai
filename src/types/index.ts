@@ -6,7 +6,6 @@ export interface ModelConfig {
   params?: string
   size?: string
   blurb?: string
-  comingSoon?: boolean
 }
 
 export interface Message {
