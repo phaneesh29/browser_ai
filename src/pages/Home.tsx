@@ -190,23 +190,23 @@ export default function Home() {
                 <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">System Details</h3>
               </div>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
-                  <span className="text-[#94a3b8] text-sm">WebGPU Support</span>
-                  <span className={`text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full ${
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">WebGPU Support</span>
+                  <span className={`text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full w-fit ${
                     webGpuSupported ? 'bg-[#06b6d4]/10 text-[#06b6d4] border border-[#06b6d4]/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                   }`}>
                     {webGpuSupported ? 'Enabled' : 'Disabled'}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
-                  <span className="text-[#94a3b8] text-sm">Hardware Adapter</span>
-                  <span className="text-xs font-semibold text-[#f1f5f9] max-w-[180px] truncate" title={gpuName}>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">Hardware Adapter</span>
+                  <span className="text-xs font-semibold text-[#f1f5f9] sm:text-right truncate max-w-full sm:max-w-[220px]" title={gpuName}>
                     {gpuName}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-[#94a3b8] text-sm">Shader Engine</span>
-                  <span className="text-xs font-semibold text-[#f1f5f9]">WGSL Pipeline Native</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">Shader Engine</span>
+                  <span className="text-xs font-semibold text-[#f1f5f9] sm:text-right">WGSL Pipeline Native</span>
                 </div>
               </div>
             </div>
@@ -218,17 +218,17 @@ export default function Home() {
                 <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">Recommended Requirements</h3>
               </div>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
-                  <span className="text-[#94a3b8] text-sm">Quantization Method</span>
-                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">1-bit (INT1 quantized)</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">Quantization Method</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9] sm:text-right">1-bit (INT1 quantized)</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
-                  <span className="text-[#94a3b8] text-sm">System RAM</span>
-                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">8 GB minimum</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">System RAM</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9] sm:text-right">8 GB minimum</span>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-[#94a3b8] text-sm">VRAM Footprint</span>
-                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">~300 MB memory</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
+                  <span className="text-[#94a3b8] text-sm flex-shrink-0">VRAM Footprint</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9] sm:text-right">~300 MB memory</span>
                 </div>
               </div>
             </div>
