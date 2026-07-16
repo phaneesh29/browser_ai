@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-router'
 import App from './App'
 import Home from './pages/Home'
+import Chat from './pages/Chat'
 
 // Root route — renders the shared layout (App shell)
 const rootRoute = createRootRoute({
@@ -18,9 +19,17 @@ const indexRoute = createRoute({
   component: Home,
 })
 
-// Build the route tree with only the landing page
+// Chat interface route
+const chatRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/chat',
+  component: Chat,
+})
+
+// Build the route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  chatRoute,
 ])
 
 // Create and export the router
