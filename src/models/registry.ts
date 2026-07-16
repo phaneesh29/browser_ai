@@ -11,6 +11,15 @@ export const MODELS: ModelConfig[] = [
     blurb: "Meta's highly polished lightweight model. Great instruction following.",
   },
   {
+    id: "phi-4-mini",
+    name: "Phi-4 Mini 3.8B",
+    repo: "onnx-community/Phi-4-mini-instruct-ONNX-GQA",
+    dtype: "q4",
+    params: "3.8B",
+    size: "2.2 GB",
+    blurb: "Microsoft's 2026 state-of-the-art small model. Superb logic and scientific reasoning.",
+  },
+  {
     id: "bonsai-1.7b",
     name: "Bonsai 1.7B",
     repo: "onnx-community/Bonsai-1.7B-ONNX",
