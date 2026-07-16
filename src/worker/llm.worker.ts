@@ -127,5 +127,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
   } else if (action.type === 'abort') {
     stopping_criteria.interrupt()
     self.postMessage({ type: 'status', message: 'Generation interrupted.' })
+  } else if (action.type === 'reset') {
+    disposePastKeyValues()
+    stopping_criteria.reset()
+    self.postMessage({ type: 'status', message: 'Cache reset.' })
   }
 })

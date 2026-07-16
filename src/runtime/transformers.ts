@@ -111,6 +111,10 @@ class LlmRuntimeManager {
   public abort(): void {
     this.getWorker().postMessage({ type: 'abort' })
   }
+
+  public reset(): void {
+    this.getWorker().postMessage({ type: 'reset' })
+  }
 }
 
 export const llmRuntime = new LlmRuntimeManager()

@@ -172,6 +172,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   },
 
   clearChat: () => {
+    llmRuntime.reset()
     set({ messages: [], activeStreamingText: '', error: null, tps: null })
   }
 }))

@@ -13,7 +13,7 @@ export interface Message {
   content: string
 }
 
-export type WorkerActionType = 'load' | 'generate' | 'abort'
+export type WorkerActionType = 'load' | 'generate' | 'abort' | 'reset'
 
 export interface WorkerLoadPayload {
   type: 'load'
@@ -32,7 +32,11 @@ export interface WorkerAbortPayload {
   type: 'abort'
 }
 
-export type WorkerAction = WorkerLoadPayload | WorkerGeneratePayload | WorkerAbortPayload
+export interface WorkerResetPayload {
+  type: 'reset'
+}
+
+export type WorkerAction = WorkerLoadPayload | WorkerGeneratePayload | WorkerAbortPayload | WorkerResetPayload
 
 export type WorkerMessageType = 'status' | 'progress' | 'ready' | 'chunk' | 'result' | 'error'
 
