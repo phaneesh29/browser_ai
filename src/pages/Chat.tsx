@@ -20,9 +20,9 @@ const STREAMDOWN_PLUGINS = { code, mermaid, math, cjk }
 // Custom SVG Icons
 function SendIcon() {
   return (
-    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="12" y1="5" x2="12" y2="14" />
-      <polyline points="7 10 12 5 17 10" />
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="8" y1="12" x2="8" y2="4" />
+      <polyline points="4 8 8 4 12 8" />
     </svg>
   )
 }
@@ -53,15 +53,7 @@ function PlusIcon() {
   )
 }
 
-function MicIcon() {
-  return (
-    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 2a2.5 2.5 0 0 0-2.5 2.5v3a2.5 2.5 0 0 0 5 0V4.5A2.5 2.5 0 0 0 8 2z" />
-      <path d="M3.5 7a4.5 4.5 0 0 0 9 0" />
-      <line x1="8" y1="11.5" x2="8" y2="14" />
-    </svg>
-  )
-}
+
 
 function CopyIcon() {
   return (
@@ -425,16 +417,11 @@ export default function Chat() {
                   className="flex-1 bg-transparent border-0 outline-none focus:ring-0 p-1 text-sm text-[#ebe5d8] resize-none max-h-24 min-h-[36px] py-2 placeholder-[#807a6f] leading-relaxed"
                 />
                 
-                {/* Voice button */}
-                <button className="p-2 text-[#807a6f] hover:text-[#ebe5d8] hover:bg-[#121211] rounded-full transition-colors cursor-pointer" title="Voice input">
-                  <MicIcon />
-                </button>
-
                 {/* Send / Stop button */}
                 {generating || activeStreamingText ? (
                   <button 
                     onClick={abortGeneration} 
-                    className="p-2.5 bg-rose-600 hover:bg-rose-500 text-[#0f0f0e] rounded-full transition-all cursor-pointer flex items-center justify-center shadow"
+                    className="w-8 h-8 bg-rose-500/10 border border-rose-500/25 hover:bg-rose-600/20 text-rose-400 rounded-full transition-all cursor-pointer flex items-center justify-center flex-shrink-0 shadow"
                     title="Stop generation"
                   >
                     <StopIcon />
@@ -443,7 +430,11 @@ export default function Chat() {
                   <button 
                     onClick={handleSend} 
                     disabled={!input.trim()}
-                    className="p-2.5 bg-[#ffb84d] hover:bg-[#ffa726] disabled:bg-[#ffb84d]/20 disabled:text-[#0f0f0e]/30 text-[#0f0f0e] rounded-full transition-all cursor-pointer flex items-center justify-center shadow"
+                    className={`w-8 h-8 rounded-full transition-all flex items-center justify-center flex-shrink-0 shadow ${
+                      input.trim() 
+                        ? 'bg-[#ffb84d] hover:bg-[#ffa726] text-[#0f0f0e] cursor-pointer' 
+                        : 'bg-[rgba(235,229,216,0.05)] text-[#807a6f] cursor-not-allowed'
+                    }`}
                     title="Send message"
                   >
                     <SendIcon />
