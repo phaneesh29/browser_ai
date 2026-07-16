@@ -81,6 +81,15 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
     stopping_criteria.reset()
     const { messages, maxTokens = 1024, temperature = 0.7, doSample = false } = action
 
+    // Limit context to the last 5 messages
+    const contextMessages = messages.slice(-5)
+
+    // If we have sliced off older messages, the attention prefix shifts,
+    // so we must reset the KV cache to prevent mismatch crashes.
+    if (messages.length > 5) {
+      disposePastKeyValues()
+    }
+
     let startTime: number | null = null
     let tokenCount = 0
     let tps = 0
@@ -111,7 +120,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
 
       self.postMessage({ type: 'status', message: 'Generating response...' })
 
-      const response = await generator(messages, {
+      const response = await generator(contextMessages, {
         max_new_tokens: maxTokens,
         temperature: doSample ? temperature : undefined,
         do_sample: doSample,
