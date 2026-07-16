@@ -58,25 +58,19 @@ export default function Home() {
   }, [setPageTitle, setWebGpuStatus])
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#08090a] text-[#f1f5f9] selection:bg-[#06b6d4]/20 selection:text-[#06b6d4]">
+    <div className="relative flex flex-col min-h-screen bg-[#08090a] text-[#f1f5f9] selection:bg-[#06b6d4]/20 selection:text-[#06b6d4] overflow-hidden">
       
+      {/* Premium ambient glows */}
+      <div className="absolute top-[10%] left-[10%] w-[35vw] h-[35vw] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-[50%] right-[10%] w-[40vw] h-[40vw] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
+
       {/* 1. Header / Top Navigation */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-[#08090a]/80 border-b border-[rgba(255,255,255,0.06)]">
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-xl font-bold tracking-tight text-[#f1f5f9] flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#06b6d4] fill-[#06b6d4]/20" /> BrowserAI
+              <Zap className="w-5 h-5 text-[#06b6d4] fill-[#06b6d4]/20" /> Bonsai Local
             </span>
-            {webGpuSupported !== null && (
-              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider border ${
-                webGpuSupported 
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' 
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/25'
-              }`}>
-                <span className={`w-1.5 h-1.5 rounded-full bg-current ${webGpuSupported ? 'animate-pulse' : ''}`}></span>
-                WebGPU {webGpuSupported ? 'Available' : 'Unavailable'}
-              </span>
-            )}
           </div>
           <div className="flex items-center gap-6">
             <a href="#privacy" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Privacy</a>
@@ -95,18 +89,28 @@ export default function Home() {
       </header>
 
       {/* 2. Main Content Wrapper */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 flex flex-col box-border space-y-24">
+      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-6 py-12 flex flex-col box-border space-y-24">
         
         {/* Hero Section */}
         <section className="text-center pt-8 max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#06b6d4]/20 bg-[#06b6d4]/10 text-[#06b6d4] text-xs font-mono mb-6">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#06b6d4]" />
-            Total Data Isolation
-          </div>
+          
+          {/* WebGPU Status Badge instead of Total Data Isolation */}
+          {webGpuSupported !== null && (
+            <div className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-mono font-medium mb-6 transition-all duration-300 ${
+              webGpuSupported 
+                ? 'bg-[#06b6d4]/10 text-[#06b6d4] border-[#06b6d4]/20 shadow-[0_0_12px_rgba(6,182,212,0.05)]' 
+                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+            }`}>
+              <span className={`w-1.5 h-1.5 rounded-full bg-current ${webGpuSupported ? 'animate-pulse' : ''}`}></span>
+              WebGPU {webGpuSupported ? 'Available' : 'Unavailable'}
+            </div>
+          )}
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none text-[#f1f5f9]">
             Absolute Client-Side Privacy. <br />
-            <span className="font-serif italic text-[#06b6d4]">No Messages Leave Your Computer.</span>
+            <span className="bg-gradient-to-r from-[#00f2fe] via-[#06b6d4] to-indigo-400 bg-clip-text text-transparent italic font-serif leading-normal">
+              No Messages Leave Your Computer.
+            </span>
           </h1>
 
           <p className="mt-6 text-[#94a3b8] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
@@ -116,13 +120,13 @@ export default function Home() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/chat"
-              className="px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer animate-pulse"
+              className="px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:shadow-[0_0_25px_rgba(6,182,212,0.45)] hover:-translate-y-0.5 duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Zap className="w-4 h-4 fill-[#08090a]/25" /> Start Local Chat
+              <Zap className="w-4 h-4 fill-[#08090a]/25 animate-pulse" /> Start Local Chat
             </Link>
             <a
               href="#diagnostics"
-              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] hover:-translate-y-0.5 font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
               Verify Hardware Support
             </a>
@@ -130,7 +134,7 @@ export default function Home() {
               href={repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] hover:-translate-y-0.5 font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
               <GithubIcon className="w-4 h-4 text-[#94a3b8] group-hover:text-[#f1f5f9]" /> View GitHub Project
             </a>
@@ -145,7 +149,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] hover:shadow-[0_0_24px_rgba(6,182,212,0.04)] hover:-translate-y-0.5 transition-all duration-300">
               <ShieldCheck className="w-8 h-8 text-[#06b6d4] mb-4" />
               <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Zero Network Traffic</h3>
               <p className="text-sm text-[#94a3b8] leading-relaxed">
@@ -153,7 +157,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] hover:shadow-[0_0_24px_rgba(6,182,212,0.04)] hover:-translate-y-0.5 transition-all duration-300">
               <Cpu className="w-8 h-8 text-[#06b6d4] mb-4" />
               <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Local GPU Processing</h3>
               <p className="text-sm text-[#94a3b8] leading-relaxed">
@@ -161,7 +165,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] hover:shadow-[0_0_24px_rgba(6,182,212,0.04)] hover:-translate-y-0.5 transition-all duration-300">
               <FolderLock className="w-8 h-8 text-[#06b6d4] mb-4" />
               <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Sandboxed Security</h3>
               <p className="text-sm text-[#94a3b8] leading-relaxed">
@@ -180,7 +184,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Diagnostic Status Card */}
-            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_0_24px_rgba(6,182,212,0.04)] transition-all duration-300">
               <div className="flex items-center gap-2 mb-4">
                 <Settings className="w-5 h-5 text-[#06b6d4]" />
                 <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">System Details</h3>
@@ -189,7 +193,7 @@ export default function Home() {
                 <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
                   <span className="text-[#94a3b8] text-sm">WebGPU Support</span>
                   <span className={`text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full ${
-                    webGpuSupported ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                    webGpuSupported ? 'bg-[#06b6d4]/10 text-[#06b6d4] border border-[#06b6d4]/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                   }`}>
                     {webGpuSupported ? 'Enabled' : 'Disabled'}
                   </span>
@@ -208,7 +212,7 @@ export default function Home() {
             </div>
 
             {/* Spec Card */}
-            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_0_24px_rgba(6,182,212,0.04)] transition-all duration-300">
               <div className="flex items-center gap-2 mb-4">
                 <Sliders className="w-5 h-5 text-[#06b6d4]" />
                 <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">Recommended Requirements</h3>
@@ -233,7 +237,7 @@ export default function Home() {
 
         {/* Open Source Contribution Section */}
         <section id="opensource" className="max-w-4xl mx-auto px-4 scroll-mt-24 text-center">
-          <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 shadow-md max-w-3xl mx-auto">
+          <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 shadow-md max-w-3xl mx-auto hover:border-[rgba(255,255,255,0.12)] transition-all duration-300">
             <Code2 className="w-8 h-8 text-[#06b6d4] mx-auto mb-4" />
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#f1f5f9]">100% Open Source</h2>
             <p className="text-[#94a3b8] mt-2 max-w-xl mx-auto leading-relaxed">
@@ -244,7 +248,7 @@ export default function Home() {
                 href={repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-sm"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] duration-200 cursor-pointer"
               >
                 <GithubIcon className="w-4 h-4" /> Browse Code on GitHub
               </a>
@@ -255,13 +259,13 @@ export default function Home() {
       </main>
 
       {/* 3. Footer */}
-      <footer className="border-t border-[rgba(255,255,255,0.06)] py-8 bg-[#08090a] text-center text-xs text-[#64748b] w-full mt-auto">
+      <footer className="border-t border-[rgba(255,255,255,0.06)] py-8 bg-[#08090a] text-center text-xs text-[#64748b] w-full mt-auto relative z-10">
         <div className="flex justify-center gap-6 mb-4">
           <a href="#privacy" className="hover:text-[#f1f5f9] transition-colors">Privacy Policy</a>
           <a href="#diagnostics" className="hover:text-[#f1f5f9] transition-colors">Hardware compatibility</a>
           <a href="#opensource" className="hover:text-[#f1f5f9] transition-colors">Source Code</a>
         </div>
-        <p>© 2026 BrowserAI Technologies, Inc. All rights reserved.</p>
+        <p>© 2026 Bonsai Local AI. All rights reserved.</p>
       </footer>
     </div>
   )
