@@ -111,14 +111,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
 
       self.postMessage({ type: 'status', message: 'Generating response...' })
 
-      // Prepend a system prompt to guide model identity and language
-      const systemMessage = {
-        role: 'system',
-        content: 'You are ZeroLocal, a helpful, private, and concise AI assistant. You must always communicate in English. Do not refer to yourself as Bonsai or PrismML.'
-      }
-      const modelMessages = [systemMessage, ...messages]
-
-      const response = await generator(modelMessages, {
+      const response = await generator(messages, {
         max_new_tokens: maxTokens,
         temperature: doSample ? temperature : undefined,
         do_sample: doSample,
