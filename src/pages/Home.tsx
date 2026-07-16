@@ -58,14 +58,14 @@ export default function Home() {
   }, [setPageTitle, setWebGpuStatus])
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0f0f0e] text-[#ebe5d8] selection:bg-[#ffb84d]/20 selection:text-[#ffb84d]">
+    <div className="flex flex-col min-h-screen bg-[#08090a] text-[#f1f5f9] selection:bg-[#06b6d4]/20 selection:text-[#06b6d4]">
       
       {/* 1. Header / Top Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#0f0f0e]/80 border-b border-[rgba(235,229,216,0.1)]">
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#08090a]/80 border-b border-[rgba(255,255,255,0.06)]">
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-xl font-bold tracking-tight text-[#ebe5d8] flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#ffb84d] fill-[#ffb84d]/20" /> BrowserAI
+            <span className="text-xl font-bold tracking-tight text-[#f1f5f9] flex items-center gap-2">
+              <Zap className="w-5 h-5 text-[#06b6d4] fill-[#06b6d4]/20" /> BrowserAI
             </span>
             {webGpuSupported !== null && (
               <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider border ${
@@ -79,14 +79,14 @@ export default function Home() {
             )}
           </div>
           <div className="flex items-center gap-6">
-            <a href="#privacy" className="text-sm font-medium text-[#b8b2a6] hover:text-[#ebe5d8] transition-colors">Privacy</a>
-            <a href="#diagnostics" className="text-sm font-medium text-[#b8b2a6] hover:text-[#ebe5d8] transition-colors">Hardware</a>
-            <a href="#opensource" className="text-sm font-medium text-[#b8b2a6] hover:text-[#ebe5d8] transition-colors">Source Code</a>
+            <a href="#privacy" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Privacy</a>
+            <a href="#diagnostics" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Hardware</a>
+            <a href="#opensource" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Source Code</a>
             <a 
               href={repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-xs font-semibold px-4 py-2 bg-[#181816] hover:bg-[#1f1f1d] text-[#ebe5d8] border border-[rgba(235,229,216,0.1)] rounded-lg transition-colors flex items-center gap-1.5"
+              className="text-xs font-semibold px-4 py-2 bg-[#111317] hover:bg-[#1e293b]/50 text-[#f1f5f9] border border-[rgba(255,255,255,0.06)] rounded-lg transition-colors flex items-center gap-1.5"
             >
               <GithubIcon className="w-3.5 h-3.5" /> GitHub
             </a>
@@ -99,30 +99,30 @@ export default function Home() {
         
         {/* Hero Section */}
         <section className="text-center pt-8 max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#ffb84d]/20 bg-[#ffb84d]/10 text-[#ffb84d] text-xs font-mono mb-6">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#ffb84d]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#06b6d4]/20 bg-[#06b6d4]/10 text-[#06b6d4] text-xs font-mono mb-6">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#06b6d4]" />
             Total Data Isolation
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none text-[#ebe5d8]">
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none text-[#f1f5f9]">
             Absolute Client-Side Privacy. <br />
-            <span className="font-serif italic text-[#ffb84d]">No Messages Leave Your Computer.</span>
+            <span className="font-serif italic text-[#06b6d4]">No Messages Leave Your Computer.</span>
           </h1>
 
-          <p className="mt-6 text-[#b8b2a6] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-[#94a3b8] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Run large language models locally inside your browser cache. Secure sandboxed execution guarantees zero data leakage, zero subscription costs, and no third-party hosts.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/chat"
-              className="px-6 py-3 bg-[#ffb84d] hover:bg-[#ffa726] text-[#0f0f0e] font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+              className="px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer animate-pulse"
             >
-              <Zap className="w-4 h-4 fill-[#0f0f0e]/25" /> Start Local Chat
+              <Zap className="w-4 h-4 fill-[#08090a]/25" /> Start Local Chat
             </Link>
             <a
               href="#diagnostics"
-              className="px-6 py-3 bg-[#181816] border border-[rgba(235,229,216,0.1)] hover:bg-[#1f1f1d] text-[#b8b2a6] hover:text-[#ebe5d8] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
             >
               Verify Hardware Support
             </a>
@@ -130,9 +130,9 @@ export default function Home() {
               href={repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 bg-[#181816] border border-[rgba(235,229,216,0.1)] hover:bg-[#1f1f1d] text-[#b8b2a6] hover:text-[#ebe5d8] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
             >
-              <GithubIcon className="w-4 h-4 text-[#b8b2a6] group-hover:text-[#ebe5d8]" /> View GitHub Project
+              <GithubIcon className="w-4 h-4 text-[#94a3b8] group-hover:text-[#f1f5f9]" /> View GitHub Project
             </a>
           </div>
         </section>
@@ -140,31 +140,31 @@ export default function Home() {
         {/* Privacy & Compliance Section */}
         <section id="privacy" className="max-w-5xl mx-auto px-4 scroll-mt-24">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ebe5d8]">Guaranteed Compliance by Architecture</h2>
-            <p className="text-[#807a6f] mt-2">Zero network request design means absolute compliance with regulations.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#f1f5f9]">Guaranteed Compliance by Architecture</h2>
+            <p className="text-[#64748b] mt-2">Zero network request design means absolute compliance with regulations.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-xl p-6 shadow-md hover:border-[rgba(235,229,216,0.2)] transition-all">
-              <ShieldCheck className="w-8 h-8 text-[#ffb84d] mb-4" />
-              <h3 className="text-lg font-bold text-[#ebe5d8] mb-2">Zero Network Traffic</h3>
-              <p className="text-sm text-[#b8b2a6] leading-relaxed">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+              <ShieldCheck className="w-8 h-8 text-[#06b6d4] mb-4" />
+              <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Zero Network Traffic</h3>
+              <p className="text-sm text-[#94a3b8] leading-relaxed">
                 All data remains locked inside browser memory. Prompts and generation histories do not travel over internet routes, completely mitigating remote interception.
               </p>
             </div>
 
-            <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-xl p-6 shadow-md hover:border-[rgba(235,229,216,0.2)] transition-all">
-              <Cpu className="w-8 h-8 text-[#ffb84d] mb-4" />
-              <h3 className="text-lg font-bold text-[#ebe5d8] mb-2">Local GPU Processing</h3>
-              <p className="text-sm text-[#b8b2a6] leading-relaxed">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+              <Cpu className="w-8 h-8 text-[#06b6d4] mb-4" />
+              <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Local GPU Processing</h3>
+              <p className="text-sm text-[#94a3b8] leading-relaxed">
                 Inference compute is run entirely on your own local device adapter. Zero data caching or model usage telemetry is reported back to external nodes.
               </p>
             </div>
 
-            <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-xl p-6 shadow-md hover:border-[rgba(235,229,216,0.2)] transition-all">
-              <FolderLock className="w-8 h-8 text-[#ffb84d] mb-4" />
-              <h3 className="text-lg font-bold text-[#ebe5d8] mb-2">Sandboxed Security</h3>
-              <p className="text-sm text-[#b8b2a6] leading-relaxed">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md hover:border-[rgba(255,255,255,0.12)] transition-all">
+              <FolderLock className="w-8 h-8 text-[#06b6d4] mb-4" />
+              <h3 className="text-lg font-bold text-[#f1f5f9] mb-2">Sandboxed Security</h3>
+              <p className="text-sm text-[#94a3b8] leading-relaxed">
                 Leverages native browser sandbox environment layers. Isolates data completely from host filesystem operations and other running application tabs.
               </p>
             </div>
@@ -174,57 +174,57 @@ export default function Home() {
         {/* Compatibility Diagnostics */}
         <section id="diagnostics" className="max-w-5xl mx-auto px-4 scroll-mt-24">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ebe5d8]">Device Hardware Verification</h2>
-            <p className="text-[#807a6f] mt-2">Identify local WebGPU capability for model acceleration.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#f1f5f9]">Device Hardware Verification</h2>
+            <p className="text-[#64748b] mt-2">Identify local WebGPU capability for model acceleration.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Diagnostic Status Card */}
-            <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-xl p-6 shadow-md">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md">
               <div className="flex items-center gap-2 mb-4">
-                <Settings className="w-5 h-5 text-[#ffb84d]" />
-                <h3 className="text-xs font-mono font-bold text-[#807a6f] uppercase tracking-wider">System Details</h3>
+                <Settings className="w-5 h-5 text-[#06b6d4]" />
+                <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">System Details</h3>
               </div>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(235,229,216,0.05)]">
-                  <span className="text-[#b8b2a6] text-sm">WebGPU Support</span>
+                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm">WebGPU Support</span>
                   <span className={`text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full ${
                     webGpuSupported ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                   }`}>
                     {webGpuSupported ? 'Enabled' : 'Disabled'}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(235,229,216,0.05)]">
-                  <span className="text-[#b8b2a6] text-sm">Hardware Adapter</span>
-                  <span className="text-xs font-semibold text-[#ebe5d8] max-w-[180px] truncate" title={gpuName}>
+                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm">Hardware Adapter</span>
+                  <span className="text-xs font-semibold text-[#f1f5f9] max-w-[180px] truncate" title={gpuName}>
                     {gpuName}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-[#b8b2a6] text-sm">Shader Engine</span>
-                  <span className="text-xs font-semibold text-[#ebe5d8]">WGSL Pipeline Native</span>
+                  <span className="text-[#94a3b8] text-sm">Shader Engine</span>
+                  <span className="text-xs font-semibold text-[#f1f5f9]">WGSL Pipeline Native</span>
                 </div>
               </div>
             </div>
 
             {/* Spec Card */}
-            <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-xl p-6 shadow-md">
+            <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-xl p-6 shadow-md">
               <div className="flex items-center gap-2 mb-4">
-                <Sliders className="w-5 h-5 text-[#ffb84d]" />
-                <h3 className="text-xs font-mono font-bold text-[#807a6f] uppercase tracking-wider">Recommended Requirements</h3>
+                <Sliders className="w-5 h-5 text-[#06b6d4]" />
+                <h3 className="text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider">Recommended Requirements</h3>
               </div>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(235,229,216,0.05)]">
-                  <span className="text-[#b8b2a6] text-sm">Quantization Method</span>
-                  <span className="text-xs font-mono font-semibold text-[#ebe5d8]">1-bit (INT1 quantized)</span>
+                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm">Quantization Method</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">1-bit (INT1 quantized)</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[rgba(235,229,216,0.05)]">
-                  <span className="text-[#b8b2a6] text-sm">System RAM</span>
-                  <span className="text-xs font-mono font-semibold text-[#ebe5d8]">8 GB minimum</span>
+                <div className="flex justify-between items-center py-2 border-b border-[rgba(255,255,255,0.03)]">
+                  <span className="text-[#94a3b8] text-sm">System RAM</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">8 GB minimum</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-[#b8b2a6] text-sm">VRAM Footprint</span>
-                  <span className="text-xs font-mono font-semibold text-[#ebe5d8]">~300 MB memory</span>
+                  <span className="text-[#94a3b8] text-sm">VRAM Footprint</span>
+                  <span className="text-xs font-mono font-semibold text-[#f1f5f9]">~300 MB memory</span>
                 </div>
               </div>
             </div>
@@ -233,10 +233,10 @@ export default function Home() {
 
         {/* Open Source Contribution Section */}
         <section id="opensource" className="max-w-4xl mx-auto px-4 scroll-mt-24 text-center">
-          <div className="bg-[#181816]/60 border border-[rgba(235,229,216,0.1)] rounded-2xl p-8 shadow-md max-w-3xl mx-auto">
-            <Code2 className="w-8 h-8 text-[#ffb84d] mx-auto mb-4" />
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#ebe5d8]">100% Open Source</h2>
-            <p className="text-[#b8b2a6] mt-2 max-w-xl mx-auto leading-relaxed">
+          <div className="bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] rounded-2xl p-8 shadow-md max-w-3xl mx-auto">
+            <Code2 className="w-8 h-8 text-[#06b6d4] mx-auto mb-4" />
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#f1f5f9]">100% Open Source</h2>
+            <p className="text-[#94a3b8] mt-2 max-w-xl mx-auto leading-relaxed">
               We believe in public auditability. Inspect our codebase, contribute logic, and review local data confinement strategies directly on our GitHub repository.
             </p>
             <div className="mt-8">
@@ -244,7 +244,7 @@ export default function Home() {
                 href={repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#ffb84d] hover:bg-[#ffa726] text-[#0f0f0e] font-bold rounded-lg transition-all shadow-sm"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-sm"
               >
                 <GithubIcon className="w-4 h-4" /> Browse Code on GitHub
               </a>
@@ -255,11 +255,11 @@ export default function Home() {
       </main>
 
       {/* 3. Footer */}
-      <footer className="border-t border-[rgba(235,229,216,0.1)] py-8 bg-[#0f0f0e] text-center text-xs text-[#807a6f] w-full mt-auto">
+      <footer className="border-t border-[rgba(255,255,255,0.06)] py-8 bg-[#08090a] text-center text-xs text-[#64748b] w-full mt-auto">
         <div className="flex justify-center gap-6 mb-4">
-          <a href="#privacy" className="hover:text-[#ebe5d8] transition-colors">Privacy Policy</a>
-          <a href="#diagnostics" className="hover:text-[#ebe5d8] transition-colors">Hardware compatibility</a>
-          <a href="#opensource" className="hover:text-[#ebe5d8] transition-colors">Source Code</a>
+          <a href="#privacy" className="hover:text-[#f1f5f9] transition-colors">Privacy Policy</a>
+          <a href="#diagnostics" className="hover:text-[#f1f5f9] transition-colors">Hardware compatibility</a>
+          <a href="#opensource" className="hover:text-[#f1f5f9] transition-colors">Source Code</a>
         </div>
         <p>© 2026 BrowserAI Technologies, Inc. All rights reserved.</p>
       </footer>

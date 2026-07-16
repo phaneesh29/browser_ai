@@ -3,27 +3,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-blue: #2563eb;
-  --color-brand-indigo: #4f46e5;
-  --color-brand-slate: #0f172a;
+  --color-brand-cyan: #06b6d4;
+  --color-brand-blue: #3b82f6;
+  --color-brand-obsidian: #08090a;
 }
 
 :root {
-  --cream: #ebe5d8;
-  --cream-dim: #b8b2a6;
-  --muted: #807a6f;
-  --line: rgba(235, 229, 216, 0.1);
-  --line-2: rgba(235, 229, 216, 0.2);
-  --bg-dark: #0f0f0e;
-  --bg-card: #181816;
-  --bg-inner: #121211;
-  --prism-1: #ff7a5c;
-  --prism-2: #ffb84d;
-  --prism-6: #b67be8;
+  --cream: #f1f5f9;
+  --cream-dim: #94a3b8;
+  --muted: #64748b;
+  --line: rgba(255, 255, 255, 0.06);
+  --line-2: rgba(255, 255, 255, 0.12);
+  --bg-dark: #08090a;
+  --bg-card: #111317;
+  --bg-inner: #0d0e12;
+  --prism-1: #00f2fe;
+  --prism-2: #06b6d4;
+  --prism-6: #3b82f6;
 }
 
 body {
-  @apply bg-[#f8fafc] text-[#0f172a] antialiased;
+  @apply bg-[#08090a] text-[#f1f5f9] antialiased;
   font-family: 'Geist', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
@@ -32,23 +32,22 @@ h1, h2, h3, h4 {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
-/* Custom scrollbars for light theme */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--line-2);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--cream-dim);
 }
 
-/* Custom scrollbars for dark playground */
 .dark-playground ::-webkit-scrollbar-track {
   background: var(--bg-dark);
 }
