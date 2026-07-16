@@ -214,6 +214,7 @@ export default function Chat() {
               {/* Dropdown for Model Selection on the Left */}
               <div className="relative flex items-center" ref={dropdownRef}>
                 <button
+                  id="chat-model-dropdown-trigger"
                   onClick={() => !generating && setDropdownOpen(!dropdownOpen)}
                   disabled={generating}
                   className="text-md font-bold bg-transparent text-[#f1f5f9] hover:bg-[#111317] px-2 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer focus:outline-none disabled:cursor-not-allowed select-none"
@@ -234,6 +235,7 @@ export default function Chat() {
                     {models.map((m) => (
                       <button
                         key={m.id}
+                        id={`chat-model-option-${m.id}`}
                         onClick={() => {
                           setSelectedModel(m)
                           useChatStore.setState({ modelReady: false })
@@ -308,9 +310,10 @@ export default function Chat() {
                     </div>
                   </div>
                   <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 mt-4">
-                    {suggestedPrompts.map((s) => (
+                    {suggestedPrompts.map((s, idx) => (
                       <button
                         key={s}
+                        id={`chat-suggested-prompt-${idx}`}
                         onClick={() => sendMessage(s)}
                         className="rounded-md border border-[rgba(255,255,255,0.06)] bg-[#111317] px-4 py-3 text-left text-xs leading-normal text-[#94a3b8] hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.015)] hover:text-[#f1f5f9] transition-all duration-200 cursor-pointer"
                       >
@@ -407,6 +410,7 @@ export default function Chat() {
                 <textarea
                   ref={inputRef}
                   value={input}
+                  id="chat-input-textarea"
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask anything"
@@ -418,6 +422,7 @@ export default function Chat() {
                 {generating || activeStreamingText ? (
                   <button 
                     onClick={abortGeneration} 
+                    id="chat-abort-generation-btn"
                     className="w-8 h-8 bg-rose-500/10 border border-rose-500/25 hover:bg-rose-600/20 text-rose-400 rounded-full transition-all cursor-pointer flex items-center justify-center flex-shrink-0 shadow"
                     title="Stop generation"
                   >
@@ -426,6 +431,7 @@ export default function Chat() {
                 ) : (
                   <button 
                     onClick={handleSend} 
+                    id="chat-send-message-btn"
                     disabled={!input.trim()}
                     className={`w-8 h-8 rounded-full transition-all flex items-center justify-center flex-shrink-0 shadow ${
                       input.trim() 

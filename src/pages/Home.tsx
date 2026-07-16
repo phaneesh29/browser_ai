@@ -130,18 +130,21 @@ export default function Home() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/chat"
+              id="hero-start-chat-btn"
               className="px-6 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-[#08090a] font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:shadow-[0_0_25px_rgba(6,182,212,0.45)] hover:-translate-y-0.5 duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Zap className="w-4 h-4 fill-[#08090a]/25 animate-pulse" /> Start Local Chat
             </Link>
             <a
               href="#diagnostics"
+              id="hero-verify-hardware-lnk"
               className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] hover:-translate-y-0.5 font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
               Verify Hardware Support
             </a>
             <a
               href={repoUrl}
+              id="hero-github-project-lnk"
               target="_blank"
               rel="noreferrer"
               className="px-6 py-3 bg-[#111317] border border-[rgba(255,255,255,0.06)] hover:bg-[#1e293b]/50 text-[#94a3b8] hover:text-[#f1f5f9] hover:-translate-y-0.5 font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
@@ -162,6 +165,7 @@ export default function Home() {
             {models.map((model) => (
               <div 
                 key={model.id}
+                id={`model-card-${model.id}`}
                 onClick={() => handleLaunchModel(model)}
                 className="group relative bg-[#111317]/60 border border-[rgba(255,255,255,0.06)] hover:border-[#06b6d4]/40 rounded-2xl p-6 shadow-md hover:shadow-[0_0_24px_rgba(6,182,212,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer"
               >
