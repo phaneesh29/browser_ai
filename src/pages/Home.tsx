@@ -219,10 +219,6 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
-                  <span className="text-[#94a3b8] text-sm flex-shrink-0">Quantization Method</span>
-                  <span className="text-xs font-mono font-semibold text-[#f1f5f9] sm:text-right">1-bit (INT1 quantized)</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2 border-b border-[rgba(255,255,255,0.03)]">
                   <span className="text-[#94a3b8] text-sm flex-shrink-0">System RAM</span>
                   <span className="text-xs font-mono font-semibold text-[#f1f5f9] sm:text-right">8 GB minimum</span>
                 </div>

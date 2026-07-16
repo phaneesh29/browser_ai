@@ -314,9 +314,6 @@ export default function Chat() {
                     <div className="text-3xl tracking-tight text-[#f1f5f9] font-bold">
                       How can I help you?
                     </div>
-                    <div className="text-[10px] font-mono tracking-[0.2em] text-[#64748b] uppercase">
-                      Talk to a local 1-bit model
-                    </div>
                   </div>
                   <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 mt-4">
                     {suggestedPrompts.map((s) => (
