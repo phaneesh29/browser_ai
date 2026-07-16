@@ -8,6 +8,7 @@ import {
 import type { WorkerAction } from '../types'
 
 // Configure environment for browser
+env.useBrowserCache = true
 env.allowLocalModels = false
 
 let generator: any = null
