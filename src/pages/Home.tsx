@@ -69,7 +69,7 @@ export default function Home() {
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-xl font-bold tracking-tight text-[#f1f5f9] flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#06b6d4] fill-[#06b6d4]/20" /> Bonsai Local
+              <Zap className="w-5 h-5 text-[#06b6d4] fill-[#06b6d4]/20" /> ZeroLocal
             </span>
           </div>
           <div className="flex items-center gap-6">
@@ -265,7 +265,7 @@ export default function Home() {
           <a href="#diagnostics" className="hover:text-[#f1f5f9] transition-colors">Hardware compatibility</a>
           <a href="#opensource" className="hover:text-[#f1f5f9] transition-colors">Source Code</a>
         </div>
-        <p>© 2026 Bonsai Local AI. All rights reserved.</p>
+        <p>© 2026 ZeroLocal AI. All rights reserved.</p>
       </footer>
     </div>
   )

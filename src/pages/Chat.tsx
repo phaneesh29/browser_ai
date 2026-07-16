@@ -421,7 +421,7 @@ export default function Chat() {
                 )}
               </div>
               <p className="text-[10px] text-center text-slate-500 mt-2.5">
-                Bonsai can make mistakes. Runs locally in your browser sandbox.
+                ZeroLocal can make mistakes. Runs locally in your browser sandbox.
               </p>
             </div>
 
