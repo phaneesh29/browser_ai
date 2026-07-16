@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { Link } from '@tanstack/react-router'
 import { useChatStore } from '../stores/chat'
 import { useAppStore } from '../stores/appStore'
 import { 
@@ -83,6 +84,13 @@ export default function Chat() {
     setPageTitle('Chat')
   }, [setPageTitle])
 
+  // Automatically start loading model if not loaded/loading
+  useEffect(() => {
+    if (!modelReady && !modelLoading) {
+      loadModel()
+    }
+  }, [modelReady, modelLoading, loadModel])
+
   // Focus input on load
   useEffect(() => {
     if (modelReady) {
@@ -130,11 +138,6 @@ export default function Chat() {
     }
   }
 
-  const clearChatAndExit = () => {
-    clearChat()
-    useChatStore.setState({ modelReady: false })
-  }
-
   const suggestedPrompts = [
     "Who are you?",
     "Write a short poem about AI.",
@@ -145,54 +148,7 @@ export default function Chat() {
   return (
     <div className="flex flex-col h-screen bg-[#0f0f0e] text-[#ebe5d8] overflow-hidden font-sans dark-playground">
       
-      {/* STAGE 1: Model Selection */}
-      {!modelReady && !modelLoading && (
-        <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto max-w-4xl mx-auto w-full">
-          <div className="text-center space-y-3 mb-10">
-            <div className="text-xs font-mono tracking-[0.2em] text-[#807a6f] uppercase">Choose a model</div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#ebe5d8]">
-              Load <span className="font-serif italic text-[#ffb84d]">locally.</span>
-            </h2>
-            <p className="text-sm text-[#807a6f] max-w-md mx-auto leading-relaxed">
-              Each Bonsai model runs entirely in your browser via WebGPU. Pick a size — smaller loads faster, larger reasons better.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-            {models.map((m) => (
-              <div
-                key={m.id}
-                className={`group relative border rounded-xl p-5 cursor-pointer transition-all duration-200 flex flex-col space-y-2.5 select-none ${
-                  selectedModel.id === m.id 
-                    ? "border-[#ffb84d] bg-[#181816] text-[#ebe5d8]" 
-                    : "border-[rgba(235,229,216,0.1)] bg-[#181816]/60 text-[#b8b2a6] hover:border-[rgba(235,229,216,0.25)] hover:text-[#ebe5d8]"
-                }`}
-                onClick={() => setSelectedModel(m)}
-              >
-                <div className="flex items-baseline justify-between">
-                  <span className="text-xl font-bold tracking-tight">{m.params || '—'}</span>
-                  <span className="text-[10px] font-mono text-[#807a6f]">{m.size || '—'}</span>
-                </div>
-                <div className="text-sm font-semibold text-[#ebe5d8]">{m.name}</div>
-                <div className="text-xs text-[#807a6f] leading-relaxed flex-1">{m.blurb}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col items-center gap-3 mt-10">
-            <button
-              className="px-6 py-2.5 bg-[#ffb84d] hover:bg-[#ffa726] text-[#0f0f0e] font-bold rounded-lg text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer"
-              onClick={loadModel}
-            >
-              Load {selectedModel.name}
-              <span className="font-mono font-bold">→</span>
-            </button>
-            <div className="text-[10px] font-mono text-[#807a6f] tracking-wider">No data leaves your device</div>
-          </div>
-        </div>
-      )}
-
-      {/* STAGE 2: Progress Loading */}
+      {/* STAGE 1: Loading Progress */}
       {modelLoading && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-md w-full border border-[rgba(235,229,216,0.1)] bg-[#181816] rounded-xl p-8 flex flex-col items-center text-center shadow-2xl">
@@ -222,30 +178,45 @@ export default function Chat() {
         </div>
       )}
 
-      {/* STAGE 3: Active Chat Playground */}
+      {/* STAGE 2: Active Chat Playground */}
       {modelReady && (
         <div className="flex-1 flex flex-col overflow-hidden max-w-4xl mx-auto w-full border-x border-[rgba(235,229,216,0.1)] bg-[#121211]">
           {/* Header Bar */}
           <div className="flex-shrink-0 flex items-center justify-between border-b border-[rgba(235,229,216,0.1)] px-6 py-4 bg-[#121211] z-10">
             <div className="flex items-center gap-3">
-              <button 
-                onClick={clearChatAndExit} 
-                className="p-1.5 hover:bg-[#181816] rounded border border-transparent hover:border-[rgba(235,229,216,0.1)] text-[#807a6f] hover:text-[#ebe5d8] transition-all cursor-pointer"
-                title="Back to Selection"
+              <Link 
+                to="/" 
+                className="p-1.5 hover:bg-[#181816] rounded border border-transparent hover:border-[rgba(235,229,216,0.1)] text-[#807a6f] hover:text-[#ebe5d8] transition-all cursor-pointer flex items-center justify-center"
+                title="Back to Home"
               >
                 <ArrowLeft className="w-4 h-4" />
-              </button>
+              </Link>
               <h2 className="text-md font-bold text-[#ebe5d8] tracking-tight">
                 The <span className="font-serif italic text-[#ffb84d]">playground.</span>
               </h2>
             </div>
-            <div className="flex gap-2">
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 bg-[#181816] border border-[rgba(235,229,216,0.1)] text-[#b8b2a6] rounded-md">
-                <span className="text-[#807a6f] lowercase">model</span> {selectedModel.name}
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 bg-[#181816] border border-[rgba(235,229,216,0.1)] text-[#b8b2a6] rounded-md">
-                <span className="text-[#807a6f] lowercase">size</span> {selectedModel.size || '—'}
-              </span>
+            
+            {/* Model Select Dropdown at Top Right */}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-[#807a6f] uppercase">Model:</span>
+              <select
+                value={selectedModel.id}
+                onChange={(e) => {
+                  const m = models.find((x) => x.id === e.target.value)
+                  if (m) {
+                    setSelectedModel(m)
+                    useChatStore.setState({ modelReady: false })
+                  }
+                }}
+                disabled={generating}
+                className="text-[10px] font-mono rounded bg-[#181816] border border-[rgba(235,229,216,0.1)] text-[#ebe5d8] px-2 py-1 focus:border-[#ffb84d] focus:outline-none cursor-pointer"
+              >
+                {models.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name} ({m.size})
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
