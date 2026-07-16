@@ -6,6 +6,7 @@ import {
 import App from './App'
 import Home from './pages/Home'
 import Chat from './pages/Chat'
+import Working from './pages/Working'
 
 // Root route — renders the shared layout (App shell)
 const rootRoute = createRootRoute({
@@ -26,10 +27,18 @@ const chatRoute = createRoute({
   component: Chat,
 })
 
+// How It Works page route
+const workingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/working',
+  component: Working,
+})
+
 // Build the route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
   chatRoute,
+  workingRoute,
 ])
 
 // Create and export the router

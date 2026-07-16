@@ -17,6 +17,7 @@
     "@streamdown/mermaid": "^1.0.2",
     "@tailwindcss/vite": "^4.3.2",
     "@tanstack/react-router": "^1.170.18",
+    "@vercel/analytics": "^2.0.1",
     "lucide-react": "^1.24.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

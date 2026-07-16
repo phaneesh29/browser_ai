@@ -73,6 +73,7 @@ export default function Home() {
             </span>
           </div>
           <div className="flex items-center gap-6">
+            <Link to="/working" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">How It Works</Link>
             <a href="#privacy" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Privacy</a>
             <a href="#diagnostics" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Hardware</a>
             <a href="#opensource" className="text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors">Source Code</a>
@@ -257,6 +258,7 @@ export default function Home() {
       {/* 3. Footer */}
       <footer className="border-t border-[rgba(255,255,255,0.06)] py-8 bg-[#08090a] text-center text-xs text-[#64748b] w-full mt-auto relative z-10">
         <div className="flex justify-center gap-6 mb-4">
+          <Link to="/working" className="hover:text-[#f1f5f9] transition-colors">How It Works</Link>
           <a href="#privacy" className="hover:text-[#f1f5f9] transition-colors">Privacy Policy</a>
           <a href="#diagnostics" className="hover:text-[#f1f5f9] transition-colors">Hardware compatibility</a>
           <a href="#opensource" className="hover:text-[#f1f5f9] transition-colors">Source Code</a>
