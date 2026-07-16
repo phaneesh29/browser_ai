@@ -1,4 +1,10 @@
-import { pipeline, env, TextStreamer } from '@huggingface/transformers'
+import { 
+  pipeline, 
+  env, 
+  TextStreamer, 
+  DynamicCache, 
+  InterruptableStoppingCriteria 
+} from '@huggingface/transformers'
 import type { WorkerAction } from '../types'
 
 // Configure environment for browser
@@ -6,7 +12,20 @@ env.allowLocalModels = false
 
 let generator: any = null
 let currentModelId: string | null = null
-let abortRequested = false
+
+const stopping_criteria = new InterruptableStoppingCriteria()
+let past_key_values_cache: any = null
+
+function disposePastKeyValues() {
+  if (past_key_values_cache) {
+    try {
+      past_key_values_cache.dispose()
+    } catch {
+      // Ignore dispose failures
+    }
+    past_key_values_cache = null
+  }
+}
 
 self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
   const action = event.data
@@ -19,7 +38,10 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
         return
       }
 
-      self.postMessage({ type: 'status', message: `Initializing ${model.name}...` })
+      // Dispose old cache if changing models
+      disposePastKeyValues()
+
+      self.postMessage({ type: 'status', message: `Downloading ${model.name}...` })
 
       generator = await pipeline('text-generation', model.repo, {
         device: 'webgpu',
@@ -39,6 +61,12 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
         },
       })
 
+      self.postMessage({ type: 'status', message: 'Compiling WebGPU shaders & optimizing model...' })
+
+      // Pre-compile shaders with a warm-up token generation
+      const warmupInputs = generator.tokenizer("a")
+      await generator.model.generate({ ...warmupInputs, max_new_tokens: 1 })
+
       currentModelId = model.id
       self.postMessage({ type: 'ready', message: `Model ${model.name} loaded and ready.` })
     } catch (error: any) {
@@ -50,42 +78,53 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
       return
     }
 
-    abortRequested = false
+    stopping_criteria.reset()
     const { messages, maxTokens = 512, temperature = 0.7 } = action
 
-    try {
-      let startTime = performance.now()
-      let tokenCount = 0
+    let startTime: number | null = null
+    let tokenCount = 0
+    let tps = 0
 
+    // Initialize or reuse DynamicCache for KV caching
+    if (!past_key_values_cache) {
+      past_key_values_cache = new DynamicCache()
+    }
+
+    try {
       const streamer = new TextStreamer(generator.tokenizer, {
         skip_prompt: true,
         skip_special_tokens: true,
         callback_function: (text: string) => {
-          if (abortRequested) {
-            throw new Error('ABORT_GENERATION')
-          }
-          tokenCount++
-          const elapsed = (performance.now() - startTime) / 1000
-          const tps = elapsed > 0 ? tokenCount / elapsed : 0
           self.postMessage({ type: 'chunk', data: text, tps })
         },
+        token_callback_function: () => {
+          if (startTime === null) {
+            startTime = performance.now()
+          }
+          tokenCount++
+          if (tokenCount > 1 && startTime !== null) {
+            const elapsed = (performance.now() - startTime) / 1000
+            tps = elapsed > 0 ? tokenCount / elapsed : 0
+          }
+        }
       })
+
+      self.postMessage({ type: 'status', message: 'Generating response...' })
 
       const response = await generator(messages, {
         max_new_tokens: maxTokens,
         temperature: temperature,
         streamer: streamer,
+        stopping_criteria: stopping_criteria,
+        past_key_values: past_key_values_cache,
       })
 
       self.postMessage({ type: 'result', data: response })
     } catch (error: any) {
-      if (error.message === 'ABORT_GENERATION') {
-        self.postMessage({ type: 'status', message: 'Generation cancelled.' })
-      } else {
-        self.postMessage({ type: 'error', message: `Generation failed: ${error.message || error}` })
-      }
+      self.postMessage({ type: 'error', message: `Generation failed: ${error.message || error}` })
     }
   } else if (action.type === 'abort') {
-    abortRequested = true
+    stopping_criteria.interrupt()
+    self.postMessage({ type: 'status', message: 'Generation interrupted.' })
   }
 })
