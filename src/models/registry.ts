@@ -2,6 +2,15 @@ import type { ModelConfig } from '../types'
 
 export const MODELS: ModelConfig[] = [
   {
+    id: "qwen-3.5-0.8b",
+    name: "Qwen 3.5 0.8B",
+    repo: "huggingworld/Qwen3.5-0.8B-ONNX",
+    dtype: "q4",
+    params: "0.8B",
+    size: "600 MB",
+    blurb: "Qwen 3.5 0.8B model. Lightweight and optimized for local text generation.",
+  },
+  {
     id: "bonsai-1.7b",
     name: "Bonsai 1.7B",
     repo: "onnx-community/Bonsai-1.7B-ONNX",
