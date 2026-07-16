@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;800&family=Geist:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 @theme {
@@ -6,9 +8,23 @@
   --color-brand-slate: #0f172a;
 }
 
+:root {
+  --cream: #ebe5d8;
+  --cream-dim: #b8b2a6;
+  --muted: #807a6f;
+  --line: rgba(235, 229, 216, 0.1);
+  --line-2: rgba(235, 229, 216, 0.2);
+  --bg-dark: #0f0f0e;
+  --bg-card: #181816;
+  --bg-inner: #121211;
+  --prism-1: #ff7a5c;
+  --prism-2: #ffb84d;
+  --prism-6: #b67be8;
+}
+
 body {
   @apply bg-[#f8fafc] text-[#0f172a] antialiased;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
@@ -31,3 +47,27 @@ h1, h2, h3, h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* Custom scrollbars for dark playground */
+.dark-playground ::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+.dark-playground ::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 4px;
+}
+.dark-playground ::-webkit-scrollbar-thumb:hover {
+  background: var(--cream-dim);
+}
+
+/* Keyframes for binary bits animations */
+@keyframes bitFlash {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+
+.animate-bit-0 { animation: bitFlash 1.2s infinite ease-in-out; }
+.animate-bit-1 { animation: bitFlash 1.2s infinite ease-in-out 0.2s; }
+.animate-bit-2 { animation: bitFlash 1.2s infinite ease-in-out 0.4s; }
+.animate-bit-3 { animation: bitFlash 1.2s infinite ease-in-out 0.6s; }
+.animate-bit-4 { animation: bitFlash 1.2s infinite ease-in-out 0.8s; }
