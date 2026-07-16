@@ -5,6 +5,11 @@ interface AppState {
   pageTitle: string
   setPageTitle: (title: string) => void
 
+  /** WebGPU support detection state */
+  webGpuSupported: boolean | null
+  gpuName: string
+  setWebGpuStatus: (supported: boolean, gpuName: string) => void
+
   /** Sidebar open/closed state */
   sidebarOpen: boolean
   toggleSidebar: () => void
@@ -14,6 +19,10 @@ interface AppState {
 export const useAppStore = create<AppState>((set) => ({
   pageTitle: 'Home',
   setPageTitle: (title) => set({ pageTitle: title }),
+
+  webGpuSupported: null,
+  gpuName: 'Checking...',
+  setWebGpuStatus: (supported, gpuName) => set({ webGpuSupported: supported, gpuName }),
 
   sidebarOpen: false,
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
