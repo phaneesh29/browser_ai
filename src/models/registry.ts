@@ -2,13 +2,22 @@ import type { ModelConfig } from '../types'
 
 export const MODELS: ModelConfig[] = [
   {
-    id: "qwen-3.5-0.8b",
-    name: "Qwen 3.5 0.8B",
-    repo: "huggingworld/Qwen3.5-0.8B-ONNX",
+    id: "qwen-2.5-1.5b",
+    name: "Qwen 2.5 1.5B",
+    repo: "onnx-community/Qwen2.5-1.5B-Instruct",
     dtype: "q4",
-    params: "0.8B",
-    size: "600 MB",
-    blurb: "Qwen 3.5 0.8B model. Lightweight and optimized for local text generation.",
+    params: "1.5B",
+    size: "940 MB",
+    blurb: "Alibaba's highly rated reasoning model. Strong code and logic performance.",
+  },
+  {
+    id: "llama-3.2-1b",
+    name: "Llama 3.2 1B",
+    repo: "onnx-community/Llama-3.2-1B-Instruct",
+    dtype: "q4",
+    params: "1.2B",
+    size: "620 MB",
+    blurb: "Meta's highly polished lightweight model. Great instruction following.",
   },
   {
     id: "bonsai-1.7b",
