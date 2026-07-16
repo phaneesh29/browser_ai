@@ -4,7 +4,7 @@ class LlmRuntimeManager {
   private worker: Worker | null = null
   private onReadyResolver: (() => void) | null = null
   private onReadyRejecter: ((err: Error) => void) | null = null
-  private onChunkCallback: ((text: string) => void) | null = null
+  private onChunkCallback: ((text: string, tps?: number) => void) | null = null
   private onResultResolver: ((result: any) => void) | null = null
   private onResultRejecter: ((err: Error) => void) | null = null
   
@@ -23,7 +23,7 @@ class LlmRuntimeManager {
   }
 
   private handleWorkerMessage(event: MessageEvent<WorkerMessage>) {
-    const { type, data, message } = event.data
+    const { type, data, message, tps } = event.data
 
     switch (type) {
       case 'status':
@@ -45,7 +45,7 @@ class LlmRuntimeManager {
         break
       case 'chunk':
         if (this.onChunkCallback) {
-          this.onChunkCallback(data)
+          this.onChunkCallback(data, tps)
         }
         break
       case 'result':
@@ -88,7 +88,7 @@ class LlmRuntimeManager {
 
   public generate(
     messages: Message[],
-    onChunk: (text: string) => void,
+    onChunk: (text: string, tps?: number) => void,
     maxTokens = 512,
     temperature = 0.7
   ): Promise<any> {

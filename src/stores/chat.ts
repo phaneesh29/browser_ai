@@ -14,6 +14,7 @@ interface ChatState {
   generating: boolean
   error: string | null
   activeStreamingText: string
+  tps: number | null
 
   // Actions
   setSelectedModel: (model: ModelConfig) => void
@@ -34,6 +35,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   generating: false,
   error: null,
   activeStreamingText: '',
+  tps: null,
 
   setSelectedModel: (model) => {
     const currentSelected = get().selectedModel
@@ -116,15 +118,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
       messages: updatedMessages,
       generating: true,
       error: null,
-      activeStreamingText: ''
+      activeStreamingText: '',
+      tps: null
     })
 
     try {
       await llmRuntime.generate(
         updatedMessages,
-        (chunk) => {
+        (chunk, tps) => {
           set((state) => ({
-            activeStreamingText: state.activeStreamingText + chunk
+            activeStreamingText: state.activeStreamingText + chunk,
+            tps: tps !== undefined ? tps : state.tps
           }))
         }
       )
@@ -137,7 +141,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
       set((state) => ({
         messages: [...state.messages, assistantMessage],
         generating: false,
-        activeStreamingText: ''
+        activeStreamingText: '',
+        tps: null
       }))
     } catch (err: any) {
       if (err.message === 'ABORT_GENERATION' || err.message?.includes('ABORT_GENERATION')) {
@@ -148,12 +153,14 @@ export const useChatStore = create<ChatState>((set, get) => ({
         set((state) => ({
           messages: [...state.messages, assistantMessage],
           generating: false,
-          activeStreamingText: ''
+          activeStreamingText: '',
+          tps: null
         }))
       } else {
         set({
           generating: false,
-          error: err.message || 'An error occurred during generation.'
+          error: err.message || 'An error occurred during generation.',
+          tps: null
         })
       }
     }
@@ -161,9 +168,10 @@ export const useChatStore = create<ChatState>((set, get) => ({
 
   abortGeneration: () => {
     llmRuntime.abort()
+    set({ tps: null })
   },
 
   clearChat: () => {
-    set({ messages: [], activeStreamingText: '', error: null })
+    set({ messages: [], activeStreamingText: '', error: null, tps: null })
   }
 }))

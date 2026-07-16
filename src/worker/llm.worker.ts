@@ -54,6 +54,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
     const { messages, maxTokens = 512, temperature = 0.7 } = action
 
     try {
+      let startTime = performance.now()
+      let tokenCount = 0
+
       const streamer = new TextStreamer(generator.tokenizer, {
         skip_prompt: true,
         skip_special_tokens: true,
@@ -61,7 +64,10 @@ self.addEventListener('message', async (event: MessageEvent<WorkerAction>) => {
           if (abortRequested) {
             throw new Error('ABORT_GENERATION')
           }
-          self.postMessage({ type: 'chunk', data: text })
+          tokenCount++
+          const elapsed = (performance.now() - startTime) / 1000
+          const tps = elapsed > 0 ? tokenCount / elapsed : 0
+          self.postMessage({ type: 'chunk', data: text, tps })
         },
       })
 

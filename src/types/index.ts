@@ -3,6 +3,10 @@ export interface ModelConfig {
   name: string
   repo: string
   dtype: string
+  params?: string
+  size?: string
+  blurb?: string
+  comingSoon?: boolean
 }
 
 export interface Message {
@@ -36,4 +40,5 @@ export interface WorkerMessage {
   type: WorkerMessageType
   data?: any
   message?: string
+  tps?: number
 }
